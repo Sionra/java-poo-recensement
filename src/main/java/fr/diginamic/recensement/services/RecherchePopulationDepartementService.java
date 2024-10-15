@@ -3,6 +3,7 @@ package fr.diginamic.recensement.services;
 import java.util.List;
 import java.util.Scanner;
 
+import fr.diginamic.recensement.exceptions.RechercheException;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import fr.diginamic.recensement.entites.Recensement;
@@ -15,10 +16,13 @@ import fr.diginamic.recensement.entites.Ville;
 public class RecherchePopulationDepartementService extends MenuService {
 
 	@Override
-	public void traiter(Recensement rec, Scanner scanner) {
+	public void traiter(Recensement rec, Scanner scanner) throws RechercheException {
 		
 		System.out.println("Quel est le code du département recherché ? ");
 		String choix = scanner.nextLine();
+		if (!choix.matches("([1-9])|([1-8]\\d)|(9[0-5])|(97[1-4])|(2[A-B])")) {
+			throw new RechercheException("Le code de département n'existe pas");
+		}
 		
 		if (!NumberUtils.isDigits(choix)) {
 			throw new RuntimeException("Le département doit être un entier.");
